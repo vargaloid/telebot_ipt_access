@@ -13,7 +13,7 @@ bot = telebot.TeleBot(config.Token)
 START, IP = range(2)
 
 USER_STATE = defaultdict(lambda: START)
-server_ip = 192.168.122.240:3389 
+server_ip = '192.168.122.240:3389'
 
 
 # ====== Функции состояния пользователя ====== #
@@ -60,12 +60,8 @@ def handle_ip(message):
         try:
             # ipset
             call(["ipset", "-A", "truerdp", str(ip)])
-            call(["ipset", "save", "trueips"])
-            call(["ipset", "-S", ">" "/etc/ipset-save"])
-            # iptables PREROUTING
-            # call(["iptables", "-t", "nat", "-A", "PREROUTING", "-s", str(ip), "-p", "tcp", "-m", "tcp", \
-            # "--dport", "3389", "-j", "DNAT", "--to-destination", str(server_ip)])
-            # call(["iptables-save", ">", "/etc/firewall.sh"])
+            call(["ipset", "save", "truerdp"])
+            call(["ipset", "-S", ">", "/etc/ipset-save"])
             bot.send_message(user_id, "IP-адрес " + str(ip) + " добавлен")
             update_state(message, START)
         except:
